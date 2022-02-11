@@ -193,14 +193,30 @@ parse_uint: ; (buffer* rdi)
 .end:
     ret
 
+parse_int: ; (buffer* rdi)
+        ; Accepts a null-terminated string and tries to parse a signed number from its start. Returns the number parsed in rax; 
+        ; its characters count in rdx (including sign if any). No spaces between sign and digits are allowed.
+    xor rdx,rdx
+    xor rax,rax
+    cmp byte[rdi],'-'
+    jne .positive
+    inc rdx
+    inc rdi
+    call parse_uint.loop
+    neg rax
+    ret
+.positive:
+    jmp parse_uint.loop
+
 section .data
     s1: db "asdf",0
     s2: times 8 db 0
     s3: db '123456',0
-    s4:
+    s4: db '-123456',0
+    s5:
 section .text
 _start:
-    jmp .test2
+    jmp .test3
     mov rdi, s1
     call print_string
     mov rdi, 65
@@ -236,6 +252,11 @@ _start:
     call parse_uint
     mov rdi, rax
     call print_uint
+.test3:
+    mov rdi, s4
+    call parse_int
+    mov rdi, rax
+    call print_int
 
     mov rdi, 1
     call exit
