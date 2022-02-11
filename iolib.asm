@@ -165,13 +165,42 @@ read_word: ; (buffer* rdi, size rsi)
     ret
 
 
+parse_uint: ; (buffer* rdi)
+            ; Accepts a null-terminated string and tries to parse an unsigned number from its start.
+            ;Returns the number parsed in rax, its characters count in rdx.
+    xor rdx,rdx
+    xor rax,rax
+.loop:
+    cmp byte[rdi],0
+    jz .end
+    cmp byte[rdi],'0'
+    jl .end
+    cmp byte[rdi],'9'
+    jg .end
+    inc rdx
+
+    lea rax, [rax +  4*rax]; rax = rax*5
+    shl rax,1 ; *2
+
+    xor rcx,rcx
+    mov cl, byte[rdi]
+    sub cl, '0'
+    add rax, rcx
+
+    inc rdi
+    jmp .loop
+
+.end:
+    ret
+
 section .data
     s1: db "asdf",0
     s2: times 8 db 0
-    s3:
+    s3: db '123456',0
+    s4:
 section .text
 _start:
-    jmp .test1
+    jmp .test2
     mov rdi, s1
     call print_string
     mov rdi, 65
@@ -202,6 +231,11 @@ _start:
     call print_string
 .next:
     call print_newline
+.test2:
+    mov rdi, s3
+    call parse_uint
+    mov rdi, rax
+    call print_uint
 
     mov rdi, 1
     call exit
