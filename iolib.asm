@@ -208,15 +208,38 @@ parse_int: ; (buffer* rdi)
 .positive:
     jmp parse_uint.loop
 
+
+string_equals: ; (buffer* rdi, buffer* rsi) 
+        ; Accepts two pointers to strings and compares them. Returns 1 if they are equal, otherwise 0.
+    xor rax,rax
+.loop:
+    mov dl, byte[rdi]
+    mov dh, byte[rsi]
+    cmp dl,dh
+    jne .end
+    test dl,dl ; \0 both
+    jz .equal
+    inc rdi
+    inc rsi
+    jmp .loop
+
+.equal:
+    inc rax
+.end:
+    ret
+
+
 section .data
     s1: db "asdf",0
     s2: times 8 db 0
     s3: db '123456',0
     s4: db '-123456',0
-    s5:
+    s5: db 'asd',0
+    s6: db 'as1',0
+    s7:
 section .text
 _start:
-    jmp .test3
+    jmp .test4
     mov rdi, s1
     call print_string
     mov rdi, 65
@@ -257,6 +280,19 @@ _start:
     call parse_int
     mov rdi, rax
     call print_int
+.test4:
+    mov rdi, s5
+    mov rsi, s5
+    call string_equals
+    mov rdi, rax
+    call print_uint
+
+    mov rdi, s5
+    mov rsi, s6
+    call string_equals
+    mov rdi, rax
+    call print_uint
+
 
     mov rdi, 1
     call exit
