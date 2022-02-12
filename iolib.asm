@@ -229,6 +229,33 @@ string_equals: ; (buffer* rdi, buffer* rsi)
     ret
 
 
+string_copy: ; (src* rdi, dst* rsi, dst_len rdx) 
+        ; Accepts a pointer to a string, a pointer to a buffer, and buffer’s length. 
+        ; Copies string to the destination. The destination address is returned if the string fits the buffer; otherwise zero is returned.
+    push rsi
+    test rdx,rdx
+    jz .end
+.loop:
+    cmp byte[rdi],0
+    jz .end
+    mov al,[rdi]
+    mov [rsi],al
+    inc rdi
+    inc rsi
+    dec rdx
+    jnz .loop
+
+.end:
+    cmp rdx,0
+    jae .ok
+    xor rax,rax
+    pop rsi
+    ret
+.ok:
+    pop rsi
+    mov rax,rsi
+    ret
+
 section .data
     s1: db "asdf",0
     s2: times 8 db 0
@@ -236,10 +263,12 @@ section .data
     s4: db '-123456',0
     s5: db 'asd',0
     s6: db 'as1',0
-    s7:
+    s7: db 'asdfg',0
+    s8: times 8 db 0
+    s9:
 section .text
 _start:
-    jmp .test4
+    jmp .test5
     mov rdi, s1
     call print_string
     mov rdi, 65
@@ -292,7 +321,16 @@ _start:
     call string_equals
     mov rdi, rax
     call print_uint
-
+.test5:
+    mov rdi, s7 
+    mov rsi, s8
+    mov rdx, s9-s8
+    call string_copy
+    test rax,rax
+    jz .next1
+    mov rdi, rax ; buf is long enough, has 0 at end
+    call print_string
+.next1:
 
     mov rdi, 1
     call exit
