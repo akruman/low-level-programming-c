@@ -1,0 +1,56 @@
+# show preprocessing using nams -E
+%define x 5
+%macro test 3
+db %1
+db %2
+db %3
+%endmacro
+
+test x, 6, 7
+
+%if x==5
+mov ax,dx
+%elif x==6
+mov ax,cx
+%else
+%endif
+
+# nasm -d flag
+%ifdef flag
+hellostring: db "Hello",0
+%endif
+
+
+# if identical
+# case insensitive, use the %ifidni
+%macro pushr 1
+%ifidn %1, rflags
+pushf
+%else
+push %1
+%endif
+%endmacro
+
+pushr rax
+pushr rflags
+
+# %ifid to check whether its argument is an identifier, %ifstr for a string check, and %ifnum to check whether it is a number or not.
+%error gagaga
+%fatal stop-compilation
+
+%define for a deferred substitution. If macro body contains other macros, they will be expanded after the substitution.
+
+%xdefine performs substitutions when being defined. Then the resulting string will be used in substitutions.
+
+%assign is like %xdefine, but it also forces the evaluation of arithmetic expressions and throws an error if the computation result is not a number.
+
+
+; repetition fixed times
+%rep 10
+    %exitrep ; to break
+%endrep
+
+%macro mymacro 0
+%%labelname:   ; generates unique prefix
+%%labelname:
+%endmacro

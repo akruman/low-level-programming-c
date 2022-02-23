@@ -43,3 +43,32 @@ https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf
 %r13 %r13d %r13w %r13b
 %r14 %r14d %r14w %r14b
 %r15 %r15d %r15w %r15b
+
+#view sections: linking
+readelf -S [elffile]
+# headers: execution
+readelf -l [elffile]
+
+sections:
+
+.text ; code
+.data ; inted globals
+.rodata ; ro data
+.bss ; zero inted space, inited on load
+    resw, resb - to alloc space
+
+.rel.text ; store relocation table, what locations to modify in text after load
+.rel.data
+.debug ; symbol table
+.line ; code locaton to asm locations
+.symtab ; symbol table
+
+global x ; symbol defined here 
+extern x ; defined somewhere else
+
+
+objdump -D -M intel-mnemonic main.o ; dissasm intel style
+readelf --relocs  main.o ; relocation table
+objdump -tf main
+
+5.3.5

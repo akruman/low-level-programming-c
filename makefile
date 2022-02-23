@@ -15,3 +15,6 @@ clean:
 % : %.o
 	ld -o $@ $<
 	chmod u+x $@
+
+prepro.asm: prepro.asm
+	nasm -E $< -o pro.asm
