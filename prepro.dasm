@@ -1,4 +1,4 @@
-# show preprocessing using nams -E
+# show preprocessing using nasm -E
 %define x 5
 %macro test 3
 db %1

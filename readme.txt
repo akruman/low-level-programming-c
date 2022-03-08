@@ -71,4 +71,6 @@ objdump -D -M intel-mnemonic main.o ; dissasm intel style
 readelf --relocs  main.o ; relocation table
 objdump -tf main
 
-5.3.5
+to adjust sectino addrs see : Using ld, the gnu linker. Available: www.math.utah.edu/docs/info/ld_3.html . 1994.
+
+5.4
