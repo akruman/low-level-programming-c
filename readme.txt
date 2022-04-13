@@ -73,4 +73,15 @@ objdump -tf main
 
 to adjust sectino addrs see : Using ld, the gnu linker. Available: www.math.utah.edu/docs/info/ld_3.html . 1994.
 
-11.7.2 .7
+c11
+#include <stdalign.h>
+alignof(int)
+alignas(8) short x;
+
+13
+example projects:
+www.gnu.org/software/gsl/
+www.gnu.org/software/gsl/design/gsl-design.html
+http://git.savannah.gnu.org/cgit/kazlib.git/
+
+16
