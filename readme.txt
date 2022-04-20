@@ -85,3 +85,7 @@ www.gnu.org/software/gsl/design/gsl-design.html
 http://git.savannah.gnu.org/cgit/kazlib.git/
 
 17
+
+volatile - suppress r/w reorder for specific var, read/write access mem.
+
+17.9
