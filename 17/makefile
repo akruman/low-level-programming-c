@@ -7,8 +7,10 @@ all:
 	gcc -o 1 --std=c99 -Wall -Werror --pedantic 1.c
 	gcc -o 2 --std=c99 -pthread -Wall -Werror --pedantic 2.c
 	gcc -o 3 --std=c99 -pthread -Wall -Werror --pedantic 3.c
+	gcc -g2 -o 4 --std=c99 -pthread -Wall -Werror --pedantic 4.c
+	gcc -o 5 --std=c11 -pthread -Wall -Werror --pedantic 5.c
 clean:
-	rm -rf 1 1.asm 1.O* 2 3
+	rm -rf 1 1.asm 1.O* 2 3 4 5
 
 run:
 	valgrind -v  --tool=helgrind  ./2

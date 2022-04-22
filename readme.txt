@@ -88,4 +88,4 @@ http://git.savannah.gnu.org/cgit/kazlib.git/
 
 volatile - suppress r/w reorder for specific var, read/write access mem.
 
-17.10
+17.12
