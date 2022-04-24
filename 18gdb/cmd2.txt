@@ -1,0 +1,13 @@
+set disassembly-flavor intel
+file ./2
+lay src
+lay regs
+b main
+b g
+run
+c
+p garg
+bt
+f 1
+f 0
+i loc

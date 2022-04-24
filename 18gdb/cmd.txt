@@ -1,0 +1,17 @@
+set disassembly-flavor intel
+file ./1
+lay asm
+lay regs
+b _start
+run
+b *0x40100a
+c
+si
+p $rax
+p /c (char)codes
+# ctrl+x o  -  to swtich windows
+x /i &_start
+x /i $rip
+x /12cb &codes
+x /x $rsp
+x /x $rsp+8

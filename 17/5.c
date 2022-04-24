@@ -1,6 +1,7 @@
 // atomics c11
 #include<stdatomic.h>
 int main(){
+    // return to this try all the consitency levels
 
     _Atomic(int) x = ATOMIC_VAR_INIT(11);
     _Atomic(int) y;
