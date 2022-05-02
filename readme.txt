@@ -87,5 +87,17 @@ http://git.savannah.gnu.org/cgit/kazlib.git/
 17
 
 volatile - suppress r/w reorder for specific var, read/write access mem.
+https://gcc.gnu.org/wiki/Atomic/GCCMM/AtomicSync
+https://gcc.gnu.org/onlinedocs/gcc-4.9.3/gcc/_005f_005fatomic-Builtins.html#g_t_005f_005fatomic-Builtins
 
-19.3
+https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html
+
+
+memory_order_relaxed - once thread2 sees specific var version 2 from thread1, it cant see version 1 in future. 
+memory_order_consume - like acquire but unrelated shared vars may not sync. just the release/consume var is synced
+
+memory_order_acquire -
+memory_order_release - stores happened before release var, will be seen once var acquired by other thread. release that happen to diff vars in diff threads (1,2), can be seen by 
+                        threads 3,4 as happening in both orders. so no seq. consistency. (shrodingers cat :) )
+memory_order_acq_rel
+memory_order_seq_cst - once thread2 sees specific var version 2 from thread1, it should also see all other operations work made before that var store by thread1
